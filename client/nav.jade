@@ -53,8 +53,8 @@ template(name='nav')
                     else 
                         i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.name}
-                a.mobile.hidden.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute 'user_credit'}}")
-                    |#{currentUser.credit}c
+                // a.mobile.hidden.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute 'user_credit'}}")
+                //     |#{currentUser.credit}c
                 a.mobile.hidden.item(href="/user/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
                     |#{currentUser.points}p
                 a.icon.large.item.toggle_rightbar.select_term

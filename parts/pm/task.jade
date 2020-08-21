@@ -1,0 +1,110 @@
+template(name='task_card')
+    a.card(href="/task/#{_id}/view")
+        .image
+            if icon 
+                +icolor name=icon
+            else
+                img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        .content
+            a.ui.header(href="/task/#{_id}/view")
+                |#{location}: #{title}
+            |!{description}
+        
+
+
+template(name='task_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.middle.aligned.row
+                .four.wide.center.aligned.column
+                    // if can_edit
+                    a(href="/m/task" title='tasks')
+                        +icolor name='task' cl='ui inline image pointer'
+                .eight.wide.center.aligned.column
+                    if icon
+                        +icolor name=icon cl='ui inline image'
+                    else
+                        +icolor name='task' cl='ui inline image'
+                    .ui.center.aligned.inline.header 
+                        small viewing task
+                        |#{title}
+                .four.wide.center.aligned.column
+                    if can_edit
+                        a.edit_task(href="/task/#{_id}/edit")
+                            i.big.pencil.circular.icon
+            .row 
+                .five.wide.column
+                    .ui.header
+                        i.marker.icon 
+                        |#{location}
+                    .ui.header 
+                        small leader
+                    a.ui.header(href="/user/#{_author.username}") 
+                        img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{_author.username}
+                    +image_view key='image_id' label='image' direct=true
+                .six.wide.column
+                    +number_view key='bounty' label='bounty' direct=true
+                    +textarea_view key='description' label='description' direct=true
+                    div 
+                    +array_view key='tags' label='tags' direct=true
+                    .spacer
+                    .spacer
+                    +comments
+                    //- +array_view key='location_tags' label='location_tags' direct=true
+                .five.wide.column
+                    if parent_id
+                        a.ui.header(href="/m/task/#{parent_id}/view")
+                            |parent task: #{parent.title}
+                    unless complete 
+                        .ui.big.green.button.mark_complete
+                            i.checkmark.icon
+                            |mark complete
+                    else
+                        .ui.button.mark_incomplete
+                            i.undo.icon
+                            |mark incomplete
+                        .ui.header completed by #{completed_by_username} 
+                        .ui.small.header {{long_date completed_timestamp}}
+                        .ui.small.header {{from_now completed_timestamp}}
+                    if has_bounty
+                        .ui.header #{point_bounty} bounty
+                    unless complete 
+                        .ui.button.add_subtask
+                            |add subtask
+                    each subtasks
+                        a.ui.header(href="/m/task/#{_id}/view")
+                            if complete 
+                                i.green.checkmark.icon
+                            else 
+                                i.circle.outline.icon
+                            |#{title}
+
+template(name='task_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.middle.aligned.row 
+                .four.wide.center.aligned.column
+                    a.ui.green.big.icon.button(href="/task/#{_id}/view" title='save')
+                        i.checkmark.big.icon
+                .eight.wide.center.aligned.column
+                    .ui.inline.header 
+                        +icon name='task'
+                        small edit task
+                        |#{title}
+                .four.wide.center.aligned.column
+                    i.link.big.remove.icon.delete_item(title='delete task')
+            .row 
+                .five.wide.column
+                    +text_edit key='title' icon='header' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    +text_edit key='location' label='location' icon='marker' direct=true
+                    div 
+                    +array_edit key='tags' label='tags' direct=true
+                .six.wide.column
+                    +html_edit key='description' label='description' direct=true
+                    //- +array_edit key='location_tags' label='location_tags' direct=true
+                .five.wide.column
+                    +boolean_edit key='published' direct=true
+                    +number_edit key='point_bounty' label='point bounty' direct=true
+                    +single_user_edit key='assigned_to_id' label='assignment' direct=true

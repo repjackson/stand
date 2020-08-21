@@ -42,8 +42,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'home_doc'
 
     Template.finance_bar.helpers
-        viewing_finance_details: -> 
-            Session.get('view_finance_details')
+        viewing_finance_details: -> Session.get('view_finance_details')
         membership_payments: ->
             Docs.find 
                 model:'expense'
@@ -83,17 +82,11 @@ if Meteor.isClient
                 sort:
                     _timestamp: -1
                 limit:25
-        latest_posts: ->
+                
+        latest_tasks: ->
             Docs.find {
-                model:'post'
-            },
-                sort:
-                    _timestamp: -1
-                limit:10
-        latest_requests: ->
-            Docs.find {
-                model:'request'
-                published:true
+                model:'task'
+                # published:true
             },
                 sort:
                     _timestamp: -1
@@ -113,9 +106,9 @@ if Meteor.isClient
                 sort:
                     _timestamp: -1
                 limit:10
-        latest_offers: ->
+        latest_projects: ->
             Docs.find {
-                model:'offer'
+                model:'project'
             },
                 sort:
                     _timestamp: -1
@@ -133,10 +126,10 @@ if Meteor.isClient
     Template.home.events
         'click .view_debit': ->
             Router.go "/m/debit/#{@_id}/view"
-        'click .view_request': ->
-            Router.go "/m/request/#{@_id}/view"
-        'click .view_offer': ->
-            Router.go "/m/offer/#{@_id}/view"
+        'click .view_task': ->
+            Router.go "/m/task/#{@_id}/view"
+        'click .view_project': ->
+            Router.go "/m/project/#{@_id}/view"
 
         'click .refresh_stats': ->
             Meteor.call 'calc_global_stats'
@@ -196,9 +189,9 @@ if Meteor.isClient
 
     Template.debit_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id
-    Template.home_offer_card.onCreated ->
+    Template.home_project_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id
-    Template.home_request_card.onCreated ->
+    Template.home_task_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id
 
     # Template.home_card.events
