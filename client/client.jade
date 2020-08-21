@@ -1,0 +1,84 @@
+head
+    title ONE|Riverside
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.3, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name="msapplication-TileColor" content="#da532c")
+    meta(name="theme-color" content="black")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
+    // link(href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet")
+    //- script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js")
+    //- script(src="https://semantic-ui.com/javascript/library/tablesort.js")
+
+
+    link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    link(rel="manifest" href="/site.webmanifest")
+
+    link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/lib/codemirror.min.css")
+    // script(src="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/lib/codemirror.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/mode/htmlmixed/htmlmixed.js")
+    // script(src="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/mode/xml/xml.js")
+    // script(src="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/mode/css/css.js")
+
+    script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
+
+    link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+
+    //- script(async src="https://www.googletagmanager.com/gtag/js?id=UA-156965333-1")
+    //- script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")        
+    
+    script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-156965333-1');
+
+body
+
+
+template(name='layout')
+    +status    
+
+    if currentUser
+        +nav
+    // #main_area.scrolling.global_container
+    .ui.bottom.attached.pushable.segment
+        // +top_sidebar
+        +left_sidebar
+        +right_sidebar
+                
+        #main_area.global_container.pusher(class=currentUser.invert_class)
+            +yield
+            // .scrolling
+        // if currentUser
+        //     +bottom_nav
+
+
+
+
+
+
+template(name='bottom_nav')
+    .ui.bottom.fixed.borderless.inverted.menu
+        a.icon.item.toggle_sidebar
+            i.bars.icon
+        a.icon.item(href="/" class="{{isActivePath 'home'}}")
+            // img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
+            i.home.icon
+        if currentUser
+            // a.item.set_member(href="/m/member" class="{{isActiveRoute 'users'}}" title='players')
+            //     +icolor name='conference-call' cl='ui mini image'
+            //     // i.users.icon
+
+    
+    
+template(name='not_found')
+    .ui.basic.center.aligned.padded.segment
+        .ui.center.aligned.header page not found

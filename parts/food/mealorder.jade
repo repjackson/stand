@@ -1,0 +1,71 @@
+template(name='mealorder_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .five.wide.column
+                    if can_edit
+                        .ui.basic.button.cancel_order
+                            i.large.remove.icon
+                            |cancel order
+                    a.ui.zoom.pointer.card(href="/m/meal/#{meal_id}/view")
+                        .content
+                            .ui.inline.header
+                                i.food.icon
+                                |meal
+                        img.ui.rounded.fluid.image(src="{{c.url mealorder_meal.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        .content
+                            .ui.header
+                                |#{mealorder_meal.title}
+                .six.wide.column
+                    .ui.header
+                        i.food.icon
+                        |${{amount}}
+                        | mealorder
+                    .ui.small.header
+                        i.clock.icon
+                        | #{when}
+                    a.ui.pointer.zoom.card(href="/user/#{_author.username}")
+                        .content
+                            .ui.inline.header 
+                                i.user.outline.icon
+                                |buyer
+                            .ui.inline.header
+                                img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                                |#{_author.username}
+                            
+                    +number_view key='amount' label='amount' direct=true
+                    +textarea_view key='description' label='description' direct=true
+                    +image_view key='image_id' label='image' direct=true
+                    div 
+                    if tags
+                        i.tags.icon
+                        each tags 
+                            .ui.big.label #{this}
+                    .spacer
+                    .spacer
+                    +comments
+                    // +voting_full
+                    //- +array_view key='location_tags' label='location_tags' direct=true
+                .five.wide.column
+                    unless submitted
+                        +date_edit key='date' label='date' direct=true
+                        +text_edit key='notes' label='notes' direct=true
+                        +key_value_edit key='tiffen_type' value='meat' direct=true
+                        +key_value_edit key='tiffen_type' value='veggie' direct=true
+                        .ui.green.button.submit_order
+                            |submit order
+                    else
+                        +date_view key='date' label='date' direct=true
+                        .spacer
+                        +text_view key='notes' label='notes' direct=true
+                        .spacer
+                        .ui.large.label
+                            |tiffen type: #{tiffen_type}
+                        .spacer
+                        
+                        +key_value_edit key='transfer' value='pickup' label='pickup' direct=true                    
+                        +key_value_edit key='transfer' value='delivery' label='delivery' direct=true                    
+                        if key_value_is key='transfer' value='delivery' direct=true
+                            +date_edit key='delivery_date' label='delivery date' direct=true
+                            +time_edit key='delivery_time' label='delivery time' direct=true
+                            
