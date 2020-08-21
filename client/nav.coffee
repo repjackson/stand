@@ -7,8 +7,8 @@ Template.nav.onCreated ->
 
 Template.nav.onRendered ->
     Meteor.setTimeout ->
-        $('.menu .item')
-            .popup()
+        # $('.menu .item')
+        #     .popup()
         $('.ui.left.sidebar')
             .sidebar({
                 context: $('.bottom.segment')
@@ -93,13 +93,13 @@ Template.nav.events
         Session.set 'loading', true
         Meteor.call 'set_facets', 'model', ->
             Session.set 'loading', false
-    'click .set_rental': ->
+    'click .set_asset': ->
         Session.set 'loading', true
-        Meteor.call 'set_facets', 'rental', ->
+        Meteor.call 'set_facets', 'asset', ->
             Session.set 'loading', false
-    'click .set_product': ->
+    'click .set_asset': ->
         Session.set 'loading', true
-        Meteor.call 'set_facets', 'product', ->
+        Meteor.call 'set_facets', 'asset', ->
             Session.set 'loading', false
     'click .set_event': ->
         Session.set 'loading', true
@@ -109,25 +109,13 @@ Template.nav.events
         Session.set 'loading', true
         Meteor.call 'set_facets', 'location', ->
             Session.set 'loading', false
-    'click .set_meal': ->
-        Session.set 'loading', true
-        Meteor.call 'set_facets', 'meal', ->
-            Session.set 'loading', false
-    'click .set_photo': ->
-        Session.set 'loading', true
-        Meteor.call 'set_facets', 'photo', ->
-            Session.set 'loading', false
     'click .set_project': ->
         Session.set 'loading', true
         Meteor.call 'set_facets', 'project', ->
             Session.set 'loading', false
-    'click .set_expense': ->
+    'click .set_task': ->
         Session.set 'loading', true
-        Meteor.call 'set_facets', 'expense', ->
-            Session.set 'loading', false
-    'click .set_post': ->
-        Session.set 'loading', true
-        Meteor.call 'set_facets', 'post', ->
+        Meteor.call 'set_facets', 'task', ->
             Session.set 'loading', false
     'click .add_gift': ->
         # user = Meteor.users.findOne(username:@username)

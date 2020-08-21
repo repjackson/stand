@@ -145,26 +145,26 @@ if Meteor.isClient
                 Docs.insert
                     model:'debit'
             Router.go "/m/debit/#{new_debit_id}/edit"
-        'click .request': ->
-            new_request_id =
+        'click .add_task': ->
+            new_task_id =
                 Docs.insert
-                    model:'request'
-            Router.go "/m/request/#{new_request_id}/edit"
+                    model:'task'
+            Router.go "/m/task/#{new_task_id}/edit"
         'click .add_event': ->
             new_event_id =
                 Docs.insert
                     model:'event'
             Router.go "/m/event/#{new_event_id}/edit"
-        'click .offer': ->
-            new_offer_id =
+        'click .add_project': ->
+            new_project_id =
                 Docs.insert
-                    model:'offer'
-            Router.go "/m/offer/#{new_offer_id}/edit"
-        'click .add_expense': ->
-            new_bug_id =
+                    model:'project'
+            Router.go "/m/project/#{new_project_id}/edit"
+        'click .add_task': ->
+            new_task_id =
                 Docs.insert
-                    model:'expense'
-            Router.go "/m/expense/#{new_bug_id}/edit"
+                    model:'task'
+            Router.go "/m/task/#{new_task_id}/edit"
         
         'click .add_message': ->
             new_message_id =
