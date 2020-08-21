@@ -7,43 +7,24 @@ template(name='nav')
             i.large.home.icon
             span.mobile.hidden #{current_tribe.title}
             // img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
-        each current_tribe.enabled_features
-            a.zoom.icon.item.mobile.hidden.goto_feature(href=link class="{{isActivePath link}}" title=title)
-                i.large.icon(class=icon)
-                | #{title}
-        a.zoom.icon.item.set_member.mobile.hidden(href="/m/member" class="{{isActivePath '/m/member'}}" title='users')
+        a.zoom.item.set_member.mobile.hidden(href="/m/member" class="{{isActivePath '/m/member'}}" title='users')
             i.large.users.icon
-        a.zoom.icon.item.mobile.hidden(href="/events" class="{{isActivePath '/events'}}" title='events')
+            |players
+        a.zoom.item.mobile.hidden(href="/events" class="{{isActivePath '/events'}}" title='events')
             i.large.calendar.icon
-            // | events
-        // a.icon.item.mobile.hidden(href="/m/event" class="{{isActivePath 'events'}}" title='events')
-        a.zoom.icon.item.mobile.hidden.set_request(href="/m/request" class="{{isActivePath '/m/request'}}" title='requests')
-            i.large.concierge.bell.icon
-            // em(data-emoji='bellhop')
-            // | requests
-        a.zoom.icon.item.mobile.hidden.set_offer(href="/m/offer" class="{{isActivePath '/m/offer'}}" title='offers')
-            i.large.hand.holding.heart.icon
-            // em(data-emoji='bellhop')
-            // | offers
-        a.zoom.icon.item.mobile.hidden.set_post(href="/m/post" class="{{isActivePath '/m/post'}}" title='feed')
-            i.large.newspaper.icon
-            // em(data-emoji='newspaper')
-            // | news
-        a.zoom.icon.item.mobile.hidden.set_meal(href="/m/meal" class="{{isActivePath '/m/meal'}}" title='food')
-            i.large.food.icon
-            // em(data-emoji='newspaper')
-            // | news
-        a.zoom.icon.item.mobile.hidden.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
-            i.large.picture.icon
-            // em(data-emoji='newspaper')
-            // | news
-        a.zoom.icon.item.mobile.hidden.set_expense(href="/m/expense" class="{{isActivePath '/m/expense'}}" title='expenses')
-            i.large.dollar.icon
-            // em(data-emoji='newspaper')
-            // | news
-        // if is_admin
-        //     a.icon.item.mobile.hidden(href="/m/model" class="{{isActivePath regex='model'}}" title='admin')
-        //         i.database.large.icon
+            | events
+        a.zoom.item.mobile.hidden.set_post(href="/m/post" class="{{isActivePath '/m/post'}}" title='feed')
+            i.large.clone.icon
+            | projects
+        a.zoom.item.mobile.hidden.set_meal(href="/m/meal" class="{{isActivePath '/m/meal'}}" title='food')
+            i.large.marker.icon
+            | locations
+        a.zoom.item.mobile.hidden.set_tasks(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
+            i.large.tasks.icon
+            | tasks
+        if is_admin
+            a.icon.item.mobile.hidden(href="/m/model" class="{{isActivePath regex='model'}}" title='admin')
+                i.database.large.icon
         .right.menu
             if unread_count
                 a.item.alerts.select_term(href="#" class=alert_toggle_class)
@@ -125,33 +106,15 @@ template(name='right_sidebar')
         a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/about" class="{{isActiveRoute 'user_about'}}")
             | about
             i.large.info.icon
-        a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
-            | #{currentUser.total_credit_amount}p received
-            i.large.chevron.down.icon
-        a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/debits" class="{{isActiveRoute 'user_sent'}}")
-            | #{currentUser.total_debit_amount}p sent
-            i.large.chevron.up.icon
         a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/events" class="{{isActiveRoute 'user_events'}}")
             | events
             i.large.calendar.icon
         a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/requests" class="{{isActiveRoute 'user_requests'}}")
             | requests
             i.large.concierge.bell.icon
-        a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/food" class="{{isActiveRoute 'user_food'}}")
-            | food
-            i.large.food.icon
         a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/orders" class="{{isActiveRoute 'user_orders'}}")
             | orders
             i.large.cart.icon
-        a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/delivery" class="{{isActiveRoute 'user_delivery'}}")
-            | delivery
-            i.large.truck.icon
-        a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/offers" class="{{isActiveRoute 'user_offers'}}")
-            | offers
-            i.large.hand.holding.heart.icon
-        a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute 'user_credit'}}")
-            | #{currentUser.credit} credit
-            i.large.dollar.icon
         // a.item.zoom.toggle_rightbar(href="/user/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}")
         //     | chat
         //     i.chat.icon

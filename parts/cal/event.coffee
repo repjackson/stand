@@ -133,6 +133,7 @@ if Meteor.isServer
         Docs.find {
             model:'event'
             published:true
+            app:'thestand'
             date:$gt:moment().subtract(1,'days').format("YYYY-MM-DD")
         }, 
             sort:date:1

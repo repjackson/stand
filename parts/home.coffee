@@ -8,7 +8,7 @@ if Meteor.isClient
         Meteor.setTimeout ->
             finance_stat = Docs.findOne model:'finance_stat'
             if finance_stat
-                percent = 20000/finance_stat.total_expense_sum
+                percent = 6000/finance_stat.total_expense_sum
                 console.log percent
                 $('.progress').progress({
                       percent: percent
@@ -18,14 +18,12 @@ if Meteor.isClient
     Template.home.onCreated ->
         @autorun => Meteor.subscribe 'latest_debits'
         @autorun => Meteor.subscribe 'model_docs', 'finance_stat'
-        @autorun => Meteor.subscribe 'model_docs', 'expense'
 
         # @autorun => Meteor.subscribe 'model_docs', 'transaction'
-        @autorun => Meteor.subscribe 'model_docs', 'request'
-        @autorun => Meteor.subscribe 'model_docs', 'offer'
+        @autorun => Meteor.subscribe 'model_docs', 'project'
+        @autorun => Meteor.subscribe 'model_docs', 'task'
         # @autorun => Meteor.subscribe 'model_docs', 'comment'
         @autorun => Meteor.subscribe 'future_events'
-        @autorun => Meteor.subscribe 'model_docs', 'post'
         # @autorun => Meteor.subscribe 'model_docs', 'global_stats'
         # @autorun -> Meteor.subscribe('home_tag_results',
         #     selected_tags.array()

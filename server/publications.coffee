@@ -67,7 +67,7 @@ Meteor.publish 'model_docs', (model)->
     #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
     #         match.app = 'stand'
     # else
-        # match.app = 'stand'
+    match.app = 'thestand'
     Docs.find match
 
 Meteor.publish 'latest_debits', ()->
@@ -77,7 +77,7 @@ Meteor.publish 'latest_debits', ()->
     #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
     #         match.app = 'stand'
     # else
-        # match.app = 'stand'
+    match.app = 'thestand'
     Docs.find match,
         sort:_timestamp:-1
         limit:25

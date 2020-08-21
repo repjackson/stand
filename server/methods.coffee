@@ -315,11 +315,11 @@ Meteor.methods
         found_term =
             Terms.findOne
                 title:term_title
-                app:'stand'
+                app:'thestand'
         unless found_term
             Terms.insert
                 title:term_title
-                app:'stand'
+                app:'thestand'
             # if Meteor.user()
             #     Meteor.users.update({_id:Meteor.userId()},{$inc: points: 1}, -> )
             # console.log 'added term', term
