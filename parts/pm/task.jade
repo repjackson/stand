@@ -19,12 +19,8 @@ template(name='task_view')
                 .four.wide.center.aligned.column
                     // if can_edit
                     a(href="/m/task" title='tasks')
-                        +icolor name='task' cl='ui inline image pointer'
+                        i.tasks.circular.big.icon
                 .eight.wide.center.aligned.column
-                    if icon
-                        +icolor name=icon cl='ui inline image'
-                    else
-                        +icolor name='task' cl='ui inline image'
                     .ui.center.aligned.inline.header 
                         small viewing task
                         |#{title}
