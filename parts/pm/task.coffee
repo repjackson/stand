@@ -14,10 +14,23 @@ if Meteor.isClient
     Template.registerHelper 'parent', () ->
         Docs.findOne @parent_id
    
+    Template.registerHelper 'child_docs', () ->
+        Docs.find
+            parent_id:@_id
+   
    
     Template.task_view.onRendered ->
 
     Template.task_view.helpers
+        can_complete: ->
+            count = Docs.find(
+                model:'task'
+                parent_id:@_id
+                complete:false
+            )
+            console.log count.count()
+            count.count() == 0
+        
         
     Template.task_view.events
         'click .add_subtask': ->
@@ -27,7 +40,12 @@ if Meteor.isClient
                     parent_id:@_id
             Router.go "/m/task/#{new_sub_id}/edit"
                     
+        'click .mark_complete': ->
+            Meteor.call 'mark_complete', @_id, ->
+        'click .mark_incomplete': ->
+            Meteor.call 'mark_incomplete', @_id, ->
                     
+    Template.task_view.events
         'click .mark_complete': ->
             Meteor.call 'mark_complete', @_id, ->
         'click .mark_incomplete': ->
@@ -116,3 +134,11 @@ if Meteor.isServer
         child = Docs.findOne child_id
         Docs.find
             _id:child.parent_id
+            
+            
+    Meteor.publish 'child_docs', (parent_id)->
+        Docs.find
+            parent_id:parent_id
+            
+            
+            

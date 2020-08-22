@@ -6,7 +6,7 @@ template(name='task_card')
             else
                 img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .content
-            a.ui.header(href="/task/#{_id}/view")
+            a.ui.header(href="/m/task/#{_id}/view")
                 |#{location}: #{title}
             |!{description}
         
@@ -30,19 +30,19 @@ template(name='task_view')
                         |#{title}
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.edit_task(href="/task/#{_id}/edit")
+                        a.edit_task(href="/m/task/#{_id}/edit")
                             i.big.pencil.circular.icon
             .row 
                 .five.wide.column
                     .ui.header
                         i.marker.icon 
                         |#{location}
-                    .ui.header 
-                        small leader
+                    .ui.inline.small.header author
                     a.ui.header(href="/user/#{_author.username}") 
                         img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{_author.username}
                     +image_view key='image_id' label='image' direct=true
+                    +comments
                 .six.wide.column
                     +number_view key='bounty' label='bounty' direct=true
                     +textarea_view key='description' label='description' direct=true
@@ -50,16 +50,31 @@ template(name='task_view')
                     +array_view key='tags' label='tags' direct=true
                     .spacer
                     .spacer
-                    +comments
+                    div
+                    .ui.inline.header
+                        i.code.branch.icon
+                        |#{child_docs.count} subtasks
+                    unless complete 
+                        i.plus.circular.link.icon.add_subtask
+                    div
+                    each child_docs
+                        +subtask
+    
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .five.wide.column
                     if parent_id
-                        a.ui.header(href="/m/task/#{parent_id}/view")
-                            |parent task: #{parent.title}
+                        .ui.segment
+                            a.ui.header(href="/m/task/#{parent_id}/view")
+                                |parent task: #{parent.title}
                     unless complete 
-                        .ui.big.green.button.mark_complete
-                            i.checkmark.icon
-                            |mark complete
+                        if can_complete
+                            .ui.big.green.button.mark_complete
+                                i.checkmark.icon
+                                |mark complete
+                        else 
+                            .ui.big.green.disabled.button
+                                i.checkmark.icon
+                                |mark complete
                     else
                         .ui.button.mark_incomplete
                             i.undo.icon
@@ -69,42 +84,60 @@ template(name='task_view')
                         .ui.small.header {{from_now completed_timestamp}}
                     if has_bounty
                         .ui.header #{point_bounty} bounty
-                    unless complete 
-                        .ui.button.add_subtask
-                            |add subtask
-                    each subtasks
-                        a.ui.header(href="/m/task/#{_id}/view")
-                            if complete 
-                                i.green.checkmark.icon
-                            else 
-                                i.circle.outline.icon
-                            |#{title}
+                        
+                        
+template(name='subtask')                        
+    .ui.card
+        .content
+            if complete 
+                i.green.checkmark.large.link.icon.mark_incomplete
+            else 
+                i.circle.outline.link.large.icon.mark_complete
+            a.ui.inline.header(href="/m/task/#{_id}/view")
+                |#{title}
+            .content
+                if location 
+                    i.marker.icon
+                    |#{location}
+                if complete
+                    .ui.list
+                        .ui.item completed by #{completed_by_username} 
+                        .ui.item {{long_date completed_timestamp}}
+                        .ui.item {{from_now completed_timestamp}}
+
 
 template(name='task_edit')
     with current_doc
         .ui.stackable.padded.grid
             .centered.middle.aligned.row 
-                .four.wide.center.aligned.column
-                    a.ui.green.big.icon.button(href="/task/#{_id}/view" title='save')
+                .sixteen.wide.column
+                    a.ui.green.big.icon.circular.button(href="/m/task/#{_id}/view" title='save')
                         i.checkmark.big.icon
-                .eight.wide.center.aligned.column
                     .ui.inline.header 
                         +icon name='task'
                         small edit task
                         |#{title}
-                .four.wide.center.aligned.column
                     i.link.big.remove.icon.delete_item(title='delete task')
             .row 
                 .five.wide.column
                     +text_edit key='title' icon='header' direct=true
-                    +image_edit key='image_id' label='image' direct=true
-                    +text_edit key='location' label='location' icon='marker' direct=true
+                    +boolean_edit key='has_image' label='image' direct=true
+                    if has_image
+                        +image_edit key='image_id' label='image' direct=true
+                    +boolean_edit key='has_location' label='location' direct=true
+                    if has_location
+                        +text_edit key='location' label='location' icon='marker' direct=true
+                        +array_edit key='location_tags' label='location tags' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true
                 .six.wide.column
-                    +html_edit key='description' label='description' direct=true
-                    //- +array_edit key='location_tags' label='location_tags' direct=true
+                    +boolean_edit key='has_description' label='description' direct=true
+                    if has_description
+                        +html_edit key='description' label='description' direct=true
                 .five.wide.column
                     +boolean_edit key='published' direct=true
+                    +boolean_edit key='approval_required' label='approval required' direct=true
+                    if approval_required
+                        +single_user_edit key='approval_required_id' label='approval required by' direct=true
                     +number_edit key='point_bounty' label='point bounty' direct=true
                     +single_user_edit key='assigned_to_id' label='assignment' direct=true
